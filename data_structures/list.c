@@ -48,6 +48,8 @@ void ListClear(DS_LIST* List)
 			entry = entry->Next;
 			ListEntryDestroy(tmp);
 		}
+		List->Size = 0;
+		List->Head.Next = List->Head.Prev = &List->Head;
 	}
 }
 
@@ -128,7 +130,7 @@ DS_ERROR ListFront(const DS_LIST* List, void** Data)
 	if (List->Size == 0)
 		return DS_NOT_FOUND;
 
-	*Data = List->Head.Next;
+	*Data = List->Head.Next->Data;
 
 	return DS_SUCCESS;
 }
@@ -140,7 +142,7 @@ DS_ERROR ListBack(const DS_LIST* List, void** Data)
 	if (List->Size == 0)
 		return DS_NOT_FOUND;
 
-	*Data = List->Head.Prev;
+	*Data = List->Head.Prev->Data;
 
 	return DS_SUCCESS;
 }
