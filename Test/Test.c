@@ -11,6 +11,7 @@ DS_ERROR TestQueue();
 
 DS_ERROR PrintList(DS_LIST* List);
 DS_ERROR PrintStack(DS_STACK* Stack);
+DS_ERROR PrintQueue(DS_QUEUE* Queue);
 
 int main()
 {
@@ -206,7 +207,6 @@ DS_ERROR TestStack()
 	DS_ERROR result = DS_SUCCESS;
 	DS_STACK* stack = NULL;
 	int val[] = { 9, 2, 4, 6, 8, 13};
-	int* top;
 
 	result = StackCreate(&stack);
 	if (result)
@@ -258,12 +258,52 @@ DS_ERROR TestQueue()
 {
 	DS_ERROR result = DS_SUCCESS;
 	DS_QUEUE* queue = NULL;
+	int val[] = { 9, 2, 4, 6, 8, 13 };
 
 	result = QueueCreate(&queue);
 	if (result)
 		return result;
 
-	return DS_SUCCESS;
+	for (int i = 0; i < sizeof(val) / sizeof(val[0]); i++)
+	{
+		result = QueuePush(queue, &val[i], sizeof(val[i]));
+		if (result)
+			return result;
+	}
+
+	result = PrintQueue(queue);
+	if (result)
+		return result;
+
+	int i = 0;
+	while (!QueueEmpty(queue))
+	{
+		result = QueuePop(queue);
+		if (result)
+			return result;
+		result = PrintQueue(queue);
+		if (result)
+			return result;
+
+		if (i == 3 || i == 4)
+		{
+			result = QueuePush(queue, &val[0], sizeof(val[0]));
+			if (result)
+				return result;
+			result = PrintQueue(queue);
+			if (result)
+				return result;
+		}
+		i++;
+	}
+
+	result = QueuePush(queue, &val[4], sizeof(val[4]));
+	if (result)
+		return result;
+	result = PrintQueue(queue);
+	if (result)
+		return result;
+	return result;
 }
 
 DS_ERROR PrintList(DS_LIST* List)
@@ -347,6 +387,54 @@ DS_ERROR PrintStack(DS_STACK* Stack)
 			return result;
 		printf("Stack is empty: no\n");
 		printf("Stack top: %d\n", *top);
+	}
+	printf("\n");
+	return DS_SUCCESS;
+}
+
+DS_ERROR PrintQueue(DS_QUEUE* Queue)
+{
+	if (NULL == Queue)
+		return DS_INVALID_PARAMETER;
+
+	DS_LIST_ITERATOR* it;
+	DS_ERROR result = DS_SUCCESS;
+	int *front, *back;
+
+	it = ListIteratorCreate(Queue->List);
+	printf("Queue:");
+	while (ListHasNext(it))
+	{
+		printf(" %d", *(int*)ListNext(it));
+	}
+	printf("\n");
+	ListIteratorDestroy(it);
+
+	it = ListReverseIteratorCreate(Queue->List);
+	printf("Queue (reverse):");
+	while (ListHasNext(it))
+	{
+		printf(" %d", *(int*)ListNext(it));
+	}
+	printf("\n");
+	ListIteratorDestroy(it);
+
+	printf("Queue size: %d\n", QueueSize(Queue));
+
+	if (QueueEmpty(Queue))
+	{
+		printf("Queue is empty: yes\n");
+	}
+	else
+	{
+		result = QueueFront(Queue, &front);
+		if (result)
+			return result;
+		result = QueueBack(Queue, &back);
+		if (result)
+			return result;
+		printf("Queue is empty: no\n");
+		printf("Queue front: %d\nQueue back: %d\n", *front, *back);
 	}
 	printf("\n");
 	return DS_SUCCESS;
