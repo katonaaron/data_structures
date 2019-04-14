@@ -12,7 +12,10 @@ DS_ERROR StackCreate(DS_STACK** Stack);
 void StackDestroy(DS_STACK* Stack);
 
 DS_ERROR StackPush(DS_STACK* Stack, const void* Data, const size_t DataSize);
-DS_ERROR StackPop(DS_STACK* Stack, void** Data);
-DS_ERROR StackTop(DS_STACK* Stack, void** Data);
+DS_ERROR StackPop(DS_STACK* Stack);
+DS_ERROR StackTop(const DS_STACK* Stack, void** Data);
+
+bool StackEmpty(const DS_STACK* Stack);
+unsigned int StackSize(const DS_STACK* Stack);
 
 #endif // !STACK_H_INCLUDED
