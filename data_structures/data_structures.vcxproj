@@ -25,6 +25,7 @@
     <ClInclude Include="ds_common.h" />
     <ClInclude Include="error.h" />
     <ClInclude Include="list.h" />
+    <ClInclude Include="stack.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
