@@ -49,7 +49,7 @@ DS_ERROR ListFind(const DS_LIST* List, const DS_COMPARE_FUNCTION Compare, const 
 DS_LIST_ITERATOR* ListIteratorCreate(const DS_LIST* List);
 DS_LIST_ITERATOR* ListReverseIteratorCreate(const DS_LIST* List);
 void ListIteratorDestroy(DS_LIST_ITERATOR* Iterator);
-bool ListHasNext(DS_LIST_ITERATOR* Iterator);
+bool ListHasNext(const DS_LIST_ITERATOR * Iterator);
 void* ListNext(DS_LIST_ITERATOR* Iterator);
 
 #endif // !LIST_H_INCLUDED

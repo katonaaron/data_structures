@@ -239,7 +239,7 @@ void ListIteratorDestroy(DS_LIST_ITERATOR* Iterator)
 	free(Iterator);
 }
 
-bool ListHasNext(DS_LIST_ITERATOR* Iterator)
+bool ListHasNext(const DS_LIST_ITERATOR * Iterator)
 {
 	return NULL != Iterator && NULL != Iterator->List && Iterator->Entry != &Iterator->List->Head;
 }
