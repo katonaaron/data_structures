@@ -3,9 +3,11 @@
 #include <stdio.h>
 #include "list.h"
 #include "stack.h"
+#include "queue.h"
 
 DS_ERROR TestList();
 DS_ERROR TestStack();
+DS_ERROR TestQueue();
 
 DS_ERROR PrintList(DS_LIST* List);
 DS_ERROR PrintStack(DS_STACK* Stack);
@@ -19,7 +21,11 @@ int main()
 	if (result)
 		return result;*/
 
-	result = TestStack();
+	/*result = TestStack();
+	if (result)
+		return result;*/
+
+	result = TestQueue();
 	if (result)
 		return result;
 
@@ -246,6 +252,18 @@ DS_ERROR TestStack()
 	if (result)
 		return result;
 	return result;
+}
+
+DS_ERROR TestQueue()
+{
+	DS_ERROR result = DS_SUCCESS;
+	DS_QUEUE* queue = NULL;
+
+	result = QueueCreate(&queue);
+	if (result)
+		return result;
+
+	return DS_SUCCESS;
 }
 
 DS_ERROR PrintList(DS_LIST* List)
