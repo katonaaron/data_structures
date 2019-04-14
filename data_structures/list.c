@@ -210,6 +210,26 @@ DS_LIST_ITERATOR* ListIteratorCreate(const DS_LIST* List)
 		{
 			it->Entry = NULL;
 		}
+		it->Type = DS_ITERATOR;
+	}		
+	return it;
+}
+
+DS_LIST_ITERATOR* ListReverseIteratorCreate(const DS_LIST* List)
+{
+	DS_LIST_ITERATOR* it = (DS_LIST_ITERATOR*)malloc(sizeof(DS_LIST_ITERATOR));
+	if (it != NULL)
+	{
+		it->List = List;
+		if (List)
+		{
+			it->Entry = List->Head.Prev;
+		}
+		else
+		{
+			it->Entry = NULL;
+		}
+		it->Type = DS_REVERSE_ITERATOR;
 	}
 	return it;
 }
@@ -229,6 +249,12 @@ void* ListNext(DS_LIST_ITERATOR* Iterator)
 	if (NULL == Iterator || NULL == Iterator->Entry)
 		return NULL;
 
-	Iterator->Entry = Iterator->Entry->Next;
-	return Iterator->Entry->Prev->Data;
+	if (Iterator->Type == DS_ITERATOR)
+	{
+		Iterator->Entry = Iterator->Entry->Next;
+		return Iterator->Entry->Prev->Data;
+	}
+
+	Iterator->Entry = Iterator->Entry->Prev;
+	return Iterator->Entry->Next->Data;
 }

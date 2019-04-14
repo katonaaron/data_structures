@@ -21,6 +21,7 @@ typedef struct _DS_LIST
 
 typedef struct _DS_LIST_ITERATOR
 {
+	DS_ITERATOR_TYPE Type;
 	const DS_LIST* List;
 	DS_LIST_ENTRY* Entry;
 }DS_LIST_ITERATOR, *PDS_LIST_ITERATOR;
@@ -46,6 +47,7 @@ DS_ERROR ListErase(const DS_LIST* List, const DS_COMPARE_FUNCTION Compare, const
 DS_ERROR ListFind(const DS_LIST* List, const DS_COMPARE_FUNCTION Compare, const void* Data, DS_LIST_ENTRY** Entry);
 
 DS_LIST_ITERATOR* ListIteratorCreate(const DS_LIST* List);
+DS_LIST_ITERATOR* ListReverseIteratorCreate(const DS_LIST* List);
 void ListIteratorDestroy(DS_LIST_ITERATOR* Iterator);
 bool ListHasNext(DS_LIST_ITERATOR* Iterator);
 void* ListNext(DS_LIST_ITERATOR* Iterator);

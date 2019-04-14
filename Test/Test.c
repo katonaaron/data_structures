@@ -33,6 +33,15 @@ int main()
 	printf("\n");
 	ListIteratorDestroy(it);
 
+	it = ListReverseIteratorCreate(list);
+	printf("-List:");
+	while (ListHasNext(it))
+	{
+		printf(" %d", *(int*)ListNext(it));
+	}
+	printf("\n");
+	ListIteratorDestroy(it);
+
 
 	result = ListPopBack(list);
 	if (result)
@@ -43,6 +52,15 @@ int main()
 
 	it = ListIteratorCreate(list);
 	printf("List:");
+	while (ListHasNext(it))
+	{
+		printf(" %d", *(int*)ListNext(it));
+	}
+	printf("\n");
+	ListIteratorDestroy(it);
+
+	it = ListReverseIteratorCreate(list);
+	printf("-List:");
 	while (ListHasNext(it))
 	{
 		printf(" %d", *(int*)ListNext(it));
@@ -66,6 +84,15 @@ int main()
 	printf("\n");
 	ListIteratorDestroy(it);
 
+	it = ListReverseIteratorCreate(list);
+	printf("-List:");
+	while (ListHasNext(it))
+	{
+		printf(" %d", *(int*)ListNext(it));
+	}
+	printf("\n");
+	ListIteratorDestroy(it);
+
 	result = ListPopBack(list);
 	if (result)
 		return result;
@@ -75,6 +102,15 @@ int main()
 
 	it = ListIteratorCreate(list);
 	printf("List:");
+	while (ListHasNext(it))
+	{
+		printf(" %d", *(int*)ListNext(it));
+	}
+	printf("\n");
+	ListIteratorDestroy(it);
+
+	it = ListReverseIteratorCreate(list);
+	printf("-List:");
 	while (ListHasNext(it))
 	{
 		printf(" %d", *(int*)ListNext(it));
