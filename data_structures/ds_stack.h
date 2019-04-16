@@ -1,5 +1,5 @@
-#ifndef STACK_H_INCLUDED
-#define STACK_H_INCLUDED
+#ifndef DS_STACK_H_INCLUDED
+#define DS_STACK_H_INCLUDED
 
 #include "ds_list.h"
 
@@ -18,4 +18,4 @@ DS_ERROR StackTop(const DS_STACK* Stack, void** Data);
 bool StackEmpty(const DS_STACK* Stack);
 unsigned int StackSize(const DS_STACK* Stack);
 
-#endif // !STACK_H_INCLUDED
+#endif // !DS_STACK_H_INCLUDED

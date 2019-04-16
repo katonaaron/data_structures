@@ -1,5 +1,5 @@
-#ifndef LIST_H_INCLUDED
-#define LIST_H_INCLUDED
+#ifndef DS_LIST_H_INCLUDED
+#define DS_LIST_H_INCLUDED
 
 #include <stdlib.h>
 #include <string.h>
@@ -52,4 +52,4 @@ void ListIteratorDestroy(DS_LIST_ITERATOR* Iterator);
 bool ListHasNext(const DS_LIST_ITERATOR * Iterator);
 void* ListNext(DS_LIST_ITERATOR* Iterator);
 
-#endif // !LIST_H_INCLUDED
+#endif // !DS_LIST_H_INCLUDED

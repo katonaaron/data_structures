@@ -1,5 +1,5 @@
-#ifndef ERROR_H_INCLUDED
-#define ERROR_H_INCLUDED
+#ifndef DS_ERROR_H_INCLUDED
+#define DS_ERROR_H_INCLUDED
 
 typedef enum _DS_ERROR
 {
@@ -9,4 +9,4 @@ typedef enum _DS_ERROR
 	DS_NOT_FOUND
 }DS_ERROR;
 //TODO: Function to return error message
-#endif // !ERROR_H_INCLUDED
+#endif // !DS_ERROR_H_INCLUDED

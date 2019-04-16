@@ -1,5 +1,5 @@
-#ifndef QUEUE_H_INCLUDED
-#define QUEUE_H_INCLUDED
+#ifndef DS_QUEUE_H_INCLUDED
+#define DS_QUEUE_H_INCLUDED
 
 #include "ds_list.h"
 
@@ -19,4 +19,4 @@ DS_ERROR QueueBack(const DS_QUEUE* Queue, void** Data);
 bool QueueEmpty(const DS_QUEUE* Queue);
 unsigned int QueueSize(const DS_QUEUE* Queue);
 
-#endif // !QUEUE_H_INCLUDED
+#endif // !DS_QUEUE_H_INCLUDED
