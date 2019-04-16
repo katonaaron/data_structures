@@ -1,4 +1,4 @@
-#include "queue.h"
+#include "ds_queue.h"
 
 DS_ERROR QueueCreate(DS_QUEUE** Queue)
 {

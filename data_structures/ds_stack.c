@@ -1,4 +1,4 @@
-#include "stack.h"
+#include "ds_stack.h"
 
 DS_ERROR StackCreate(DS_STACK** Stack)
 {

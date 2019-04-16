@@ -19,16 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="list.c" />
-    <ClCompile Include="queue.c" />
-    <ClCompile Include="stack.c" />
+    <ClCompile Include="ds_list.c" />
+    <ClCompile Include="ds_queue.c" />
+    <ClCompile Include="ds_stack.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ds_common.h" />
-    <ClInclude Include="error.h" />
-    <ClInclude Include="list.h" />
-    <ClInclude Include="queue.h" />
-    <ClInclude Include="stack.h" />
+    <ClInclude Include="ds_error.h" />
+    <ClInclude Include="ds_list.h" />
+    <ClInclude Include="ds_queue.h" />
+    <ClInclude Include="ds_stack.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

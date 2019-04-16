@@ -1,7 +1,7 @@
 #ifndef QUEUE_H_INCLUDED
 #define QUEUE_H_INCLUDED
 
-#include "list.h"
+#include "ds_list.h"
 
 typedef struct _DS_QUEUE
 {

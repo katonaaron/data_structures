@@ -1,7 +1,7 @@
 #ifndef STACK_H_INCLUDED
 #define STACK_H_INCLUDED
 
-#include "list.h"
+#include "ds_list.h"
 
 typedef struct _DS_STACK
 {

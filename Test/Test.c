@@ -1,9 +1,9 @@
 // Test.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 #include <stdio.h>
-#include "list.h"
-#include "stack.h"
-#include "queue.h"
+#include "ds_list.h"
+#include "ds_stack.h"
+#include "ds_queue.h"
 
 DS_ERROR TestList();
 DS_ERROR TestStack();
