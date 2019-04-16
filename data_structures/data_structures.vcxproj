@@ -19,9 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ds_error.c" />
     <ClCompile Include="ds_list.c" />
     <ClCompile Include="ds_queue.c" />
     <ClCompile Include="ds_stack.c" />
+    <ClCompile Include="ds_vector.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ds_common.h" />
@@ -29,6 +31,7 @@
     <ClInclude Include="ds_list.h" />
     <ClInclude Include="ds_queue.h" />
     <ClInclude Include="ds_stack.h" />
+    <ClInclude Include="ds_vector.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

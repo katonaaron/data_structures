@@ -24,6 +24,12 @@
     <ClCompile Include="ds_stack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ds_error.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ds_vector.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ds_common.h">
@@ -39,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ds_stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ds_vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
