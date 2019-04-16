@@ -1,9 +1,6 @@
 #ifndef DS_LIST_H_INCLUDED
 #define DS_LIST_H_INCLUDED
 
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
 #include "ds_common.h"
 
 typedef struct _DS_LIST_ENTRY
