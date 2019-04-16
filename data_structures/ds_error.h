@@ -8,5 +8,7 @@ typedef enum _DS_ERROR
 	DS_NO_MEMORY,
 	DS_NOT_FOUND
 }DS_ERROR;
-//TODO: Function to return error message
+
+char* DSErrorGetMessage(DS_ERROR Code);
+
 #endif // !DS_ERROR_H_INCLUDED
