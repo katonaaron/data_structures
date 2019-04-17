@@ -39,8 +39,8 @@ DS_ERROR ListBack(const DS_LIST* List, void** Data);
 bool ListEmpty(const DS_LIST* List);
 unsigned int ListSize(const DS_LIST* List);
 
-DS_ERROR ListInsert(const DS_LIST* List, const DS_COMPARE_FUNCTION Compare, const void* Data, const size_t DataSize);
-DS_ERROR ListErase(const DS_LIST* List, const DS_COMPARE_FUNCTION Compare, const void* Data);
+DS_ERROR ListInsert(DS_LIST* List, const DS_COMPARE_FUNCTION Compare, const void* Data, const size_t DataSize);
+DS_ERROR ListErase(DS_LIST* List, const DS_COMPARE_FUNCTION Compare, const void* Data);
 DS_ERROR ListFind(const DS_LIST* List, const DS_COMPARE_FUNCTION Compare, const void* Data, DS_LIST_ENTRY** Entry);
 
 DS_LIST_ITERATOR* ListIteratorCreate(const DS_LIST* List);

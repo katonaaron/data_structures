@@ -55,7 +55,7 @@ void ListClear(DS_LIST* List)
 
 DS_ERROR ListPushFront(DS_LIST* List, const void* Data, const size_t DataSize)
 {
-	if (NULL == List)
+	if (NULL == List || NULL == Data || 0 == DataSize)
 		return DS_INVALID_PARAMETER;
 
 	PDS_LIST_ENTRY entry = NULL;
@@ -90,7 +90,7 @@ DS_ERROR ListPopFront(DS_LIST* List)
 
 DS_ERROR ListPushBack(DS_LIST* List, const void* Data, const size_t DataSize)
 {
-	if (NULL == List)
+	if (NULL == List || NULL == Data || 0 == DataSize)
 		return DS_INVALID_PARAMETER;
 
 	PDS_LIST_ENTRY entry = NULL;
@@ -157,6 +157,77 @@ unsigned int ListSize(const DS_LIST* List)
 	if (List)
 		return List->Size;
 	return 0;
+}
+
+DS_ERROR ListInsert(DS_LIST* List, const DS_COMPARE_FUNCTION Compare, const void* Data, const size_t DataSize)
+{
+	if (NULL == List || NULL == Compare || NULL == Data || 0 == DataSize)
+		return DS_INVALID_PARAMETER;
+
+	PDS_LIST_ENTRY entry = List->Head.Next, newEntry = NULL;
+	DS_ERROR result = DS_SUCCESS;
+
+	while (entry != &List->Head)
+	{
+		if (Compare(Data, entry->Data) > 0)
+			entry = entry->Next;
+		else
+			break;
+	}
+
+	result = ListEntryCreate(&newEntry, Data, DataSize, entry, entry->Prev);
+	if (result)
+		return result;
+
+	newEntry->Prev->Next = newEntry;
+	newEntry->Next->Prev = newEntry;
+
+	List->Size++;
+	return DS_SUCCESS;
+}
+
+DS_ERROR ListErase(DS_LIST* List, const DS_COMPARE_FUNCTION Compare, const void* Data)
+{
+	if (NULL == List || NULL == Compare || NULL == Data)
+		return DS_INVALID_PARAMETER;
+	if (List->Size == 0)
+		return DS_NOT_FOUND;
+
+	PDS_LIST_ENTRY entry = NULL;
+
+	DS_ERROR result = ListFind(List, Compare, Data, &entry);
+	if (DS_SUCCESS != result)
+		return result;
+	
+	entry->Prev->Next = entry->Next;
+	entry->Next->Prev = entry->Prev;
+
+	ListEntryDestroy(entry);
+
+	List->Size--;
+	return DS_SUCCESS;
+}
+
+DS_ERROR ListFind(const DS_LIST* List, const DS_COMPARE_FUNCTION Compare, const void* Data, DS_LIST_ENTRY** Entry)
+{
+	if (NULL == List || NULL == Compare || NULL == Data || NULL == Entry)
+		return DS_INVALID_PARAMETER;
+	if (List->Size == 0)
+		return DS_NOT_FOUND;
+
+	PDS_LIST_ENTRY entry = List->Head.Next;
+	DS_ERROR result = DS_SUCCESS;
+
+	while (entry != &List->Head && Compare(Data, entry->Data) != 0)
+	{
+		entry = entry->Next;
+	}
+
+	if (entry == &List->Head)
+		return DS_NOT_FOUND;
+
+	*Entry = entry;
+	return DS_SUCCESS;
 }
 
 DS_ERROR ListEntryCreate(

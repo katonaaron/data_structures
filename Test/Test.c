@@ -21,11 +21,14 @@ int main()
 	DS_ERROR result = DS_SUCCESS;
 
 
-	/*result = TestList();
+	result = TestList();
 	if (result)
-		return result;
+	{
+		printf("Error: %s\n", DSErrorGetMessage(result));
+		return -1;
+	}
 
-	result = TestStack();
+	/*result = TestStack();
 	if (result)
 		return result;*/
 
@@ -36,14 +39,19 @@ int main()
 		return -1;
 	}*/
 
-	result = TestVector();
+	/*result = TestVector();
 	if (result)
 	{
 		printf("Error: %s\n", DSErrorGetMessage(result));
 		return -1;
-	}
+	}*/
 
 	return 0;
+}
+
+int CompareInt(int* A, int* B)
+{
+	return *A > * B ? 1 : *A < *B ? -1 : 0;
 }
 
 DS_ERROR TestList()
@@ -56,64 +64,21 @@ DS_ERROR TestList()
 	if (result)
 		return result;
 
-	int val[] = { 1, 2, 3 };
+	int val[] = { 34, 10, 96, 0, 2, 3 ,1, 10 };
 	for (int i = 0; i < sizeof(val) / sizeof(val[0]); i++)
 	{
 		result = ListPushFront(list, &val[i], sizeof(val[i]));
 		if (result)
 			return result;
 	}
-
-	int* front, * back;
-	result = ListFront(list, &front);
+	result = PrintList(list);
 	if (result)
 		return result;
-	result = ListBack(list, &back);
-	if (result)
-		return result;
-	printf("List front: %d\nList back: %d\n", *front, *back);
-	printf("List size: %d\n", ListSize(list));
-	printf("List is empty: %s\n", ListEmpty(list) ? "yes" : "no");
-
-	it = ListIteratorCreate(list);
-	printf("List:");
-	while (ListHasNext(it))
-	{
-		printf(" %d", *(int*)ListNext(it));
-	}
-	printf("\n");
-	ListIteratorDestroy(it);
-
-	it = ListReverseIteratorCreate(list);
-	printf("-List:");
-	while (ListHasNext(it))
-	{
-		printf(" %d", *(int*)ListNext(it));
-	}
-	printf("\n");
-	ListIteratorDestroy(it);
 
 	ListClear(list);
-	printf("List size: %d\n", ListSize(list));
-	printf("List is empty: %s\n", ListEmpty(list) ? "yes" : "no");
-
-	it = ListIteratorCreate(list);
-	printf("List:");
-	while (ListHasNext(it))
-	{
-		printf(" %d", *(int*)ListNext(it));
-	}
-	printf("\n");
-	ListIteratorDestroy(it);
-
-	it = ListReverseIteratorCreate(list);
-	printf("-List:");
-	while (ListHasNext(it))
-	{
-		printf(" %d", *(int*)ListNext(it));
-	}
-	printf("\n");
-	ListIteratorDestroy(it);
+	result = PrintList(list);
+	if (result)
+		return result;
 
 	for (int i = 0; i < sizeof(val) / sizeof(val[0]); i++)
 	{
@@ -121,95 +86,64 @@ DS_ERROR TestList()
 		if (result)
 			return result;
 	}
+
+	result = PrintList(list);
+	if (result)
+		return result;
 
 	result = ListPopBack(list);
 	if (result)
 		return result;
 
-	result = ListFront(list, &front);
+	result = PrintList(list);
 	if (result)
 		return result;
-	result = ListBack(list, &back);
-	if (result)
-		return result;
-	printf("List front: %d\nList back: %d\n", *front, *back);
-	printf("List size: %d\n", ListSize(list));
-	printf("List is empty: %s\n", ListEmpty(list) ? "yes" : "no");
-
-	it = ListIteratorCreate(list);
-	printf("List:");
-	while (ListHasNext(it))
-	{
-		printf(" %d", *(int*)ListNext(it));
-	}
-	printf("\n");
-	ListIteratorDestroy(it);
-
-	it = ListReverseIteratorCreate(list);
-	printf("-List:");
-	while (ListHasNext(it))
-	{
-		printf(" %d", *(int*)ListNext(it));
-	}
-	printf("\n");
-	ListIteratorDestroy(it);
 
 	result = ListPopFront(list);
 	if (result)
 		return result;
 
-	result = ListFront(list, &front);
+	result = PrintList(list);
 	if (result)
 		return result;
-	result = ListBack(list, &back);
-	if (result)
-		return result;
-	printf("List front: %d\nList back: %d\n", *front, *back);
-	printf("List size: %d\n", ListSize(list));
-	printf("List is empty: %s\n", ListEmpty(list) ? "yes" : "no");
-
-	it = ListIteratorCreate(list);
-	printf("List:");
-	while (ListHasNext(it))
-	{
-		printf(" %d", *(int*)ListNext(it));
-	}
-	printf("\n");
-	ListIteratorDestroy(it);
-
-	it = ListReverseIteratorCreate(list);
-	printf("-List:");
-	while (ListHasNext(it))
-	{
-		printf(" %d", *(int*)ListNext(it));
-	}
-	printf("\n");
-	ListIteratorDestroy(it);
 
 	result = ListPopBack(list);
 	if (result)
 		return result;
 
-	printf("List size: %d\n", ListSize(list));
-	printf("List is empty: %s\n", ListEmpty(list) ? "yes" : "no");
+	result = PrintList(list);
+	if (result)
+		return result;
 
-	it = ListIteratorCreate(list);
-	printf("List:");
-	while (ListHasNext(it))
-	{
-		printf(" %d", *(int*)ListNext(it));
-	}
-	printf("\n");
-	ListIteratorDestroy(it);
+	//ListClear(list);
+	result = PrintList(list);
+	if (result)
+		return result;
 
-	it = ListReverseIteratorCreate(list);
-	printf("-List:");
-	while (ListHasNext(it))
+	for (int i = 0; i < sizeof(val) / sizeof(val[0]); i++)
 	{
-		printf(" %d", *(int*)ListNext(it));
+		result = ListInsert(list, (DS_COMPARE_FUNCTION)CompareInt, &val[i], sizeof(val[i]));
+		if (result)
+			return result;
 	}
-	printf("\n");
-	ListIteratorDestroy(it);
+	result = PrintList(list);
+	if (result)
+		return result;
+
+	result = ListErase(list, (DS_COMPARE_FUNCTION)CompareInt, &val[2]);
+	if (result)
+		return result;
+
+	result = PrintList(list);
+	if (result)
+		return result;
+
+	result = ListInsert(list, (DS_COMPARE_FUNCTION)CompareInt, &val[2], sizeof(val[2]));
+	if (result)
+		return result;
+	result = PrintList(list);
+	if (result)
+		return result;
 
 	ListDestroy(list);
 	return result;
