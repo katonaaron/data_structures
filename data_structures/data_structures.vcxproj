@@ -31,6 +31,7 @@
     <ClInclude Include="ds_list.h" />
     <ClInclude Include="ds_queue.h" />
     <ClInclude Include="ds_stack.h" />
+    <ClInclude Include="ds_tree.h" />
     <ClInclude Include="ds_vector.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
