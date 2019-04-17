@@ -216,7 +216,6 @@ DS_ERROR ListFind(const DS_LIST* List, const DS_COMPARE_FUNCTION Compare, const 
 		return DS_NOT_FOUND;
 
 	PDS_LIST_ENTRY entry = List->Head.Next;
-	DS_ERROR result = DS_SUCCESS;
 
 	while (entry != &List->Head && Compare(Data, entry->Data) != 0)
 	{
