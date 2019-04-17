@@ -11,41 +11,50 @@ DS_ERROR TestList();
 DS_ERROR TestStack();
 DS_ERROR TestQueue();
 DS_ERROR TestVector();
+DS_ERROR TestTree();
 
 DS_ERROR PrintList(DS_LIST* List);
 DS_ERROR PrintStack(DS_STACK* Stack);
 DS_ERROR PrintQueue(DS_QUEUE* Queue);
 DS_ERROR PrintVector(DS_VECTOR* Vector);
+DS_ERROR PrintTree(DS_TREE* Tree);
 
 int main()
 {
 	DS_ERROR result = DS_SUCCESS;
 
 
-	result = TestList();
+	/*result = TestList();
 	if (result)
 	{
 		printf("Error: %s\n", DSErrorGetMessage(result));
 		return -1;
-	}
+	}*/
 
 	/*result = TestStack();
 	if (result)
 		return result;*/
 
-	/*result = TestQueue();
-	if (result)
-	{
-		printf("Error: %s\n", DSErrorGetMessage(result));
-		return -1;
-	}*/
+		/*result = TestQueue();
+		if (result)
+		{
+			printf("Error: %s\n", DSErrorGetMessage(result));
+			return -1;
+		}*/
 
-	/*result = TestVector();
+		/*result = TestVector();
+		if (result)
+		{
+			printf("Error: %s\n", DSErrorGetMessage(result));
+			return -1;
+		}*/
+
+	result = TestTree();
 	if (result)
 	{
 		printf("Error: %s\n", DSErrorGetMessage(result));
 		return -1;
-	}*/
+	}
 
 	return 0;
 }
@@ -273,7 +282,7 @@ DS_ERROR TestVector()
 	if (result)
 		return result;
 
-	 VectorClear(vector);
+	VectorClear(vector);
 	if (result)
 		return result;
 
@@ -336,7 +345,64 @@ DS_ERROR TestVector()
 	return result;
 }
 
-DS_ERROR PrintList(DS_LIST* List)
+DS_ERROR TestTree()
+{
+	DS_ERROR result = DS_SUCCESS;
+	PDS_TREE tree = NULL;
+	char* key[] = { "g", "b", "ahahahhaa", "l", "k" };
+	int val[] = { 1, 2, 3, 4, 5 };
+
+	result = TreeCreate(&tree, (DS_COMPARE_FUNCTION)strcmp);
+	if (DS_SUCCESS != result)
+		return result;
+
+	for (int i = 0; i < sizeof(key) / sizeof(key[0]); i++)
+	{
+		result = TreeInsert(tree, key[i], (strlen(key[i]) + 1) * sizeof(char), &val[i], sizeof(val[i]));
+		if (DS_SUCCESS != result)
+			return result;
+	}
+
+	result = PrintTree(tree);
+	if (DS_SUCCESS != result)
+		return result;
+
+	TreeClear(tree);
+	result = PrintTree(tree);
+	if (DS_SUCCESS != result)
+		return result;
+
+	for (int i = 0; i < sizeof(key) / sizeof(key[0]); i++)
+	{
+		result = TreeInsert(tree, key[i], (strlen(key[i]) + 1) * sizeof(char), &val[i], sizeof(val[i]));
+		if (DS_SUCCESS != result)
+			return result;
+	}
+	result = PrintTree(tree);
+	if (DS_SUCCESS != result)
+		return result;
+
+	int* data;
+	result = TreeFind(tree, "k", &data);
+	if (DS_SUCCESS != result)
+		return result;
+	printf("Found data: %d\n", *(int*)data);
+
+	while (!TreeEmpty(tree))
+	{
+		result = TreeErase(tree, tree->Root->Key);
+		if (DS_SUCCESS != result)
+			return result;
+		result = PrintTree(tree);
+		if (DS_SUCCESS != result)
+			return result;
+	}
+
+	TreeDestroy(tree);
+	return result;
+}
+
+DS_ERROR PrintList(DS_LIST * List)
 {
 	DS_LIST_ITERATOR* it;
 	DS_ERROR result = DS_SUCCESS;
@@ -380,7 +446,7 @@ DS_ERROR PrintList(DS_LIST* List)
 	return DS_SUCCESS;
 }
 
-DS_ERROR PrintStack(DS_STACK* Stack)
+DS_ERROR PrintStack(DS_STACK * Stack)
 {
 	DS_LIST_ITERATOR* it;
 	DS_ERROR result = DS_SUCCESS;
@@ -422,7 +488,7 @@ DS_ERROR PrintStack(DS_STACK* Stack)
 	return DS_SUCCESS;
 }
 
-DS_ERROR PrintQueue(DS_QUEUE* Queue)
+DS_ERROR PrintQueue(DS_QUEUE * Queue)
 {
 	if (NULL == Queue)
 		return DS_INVALID_PARAMETER;
@@ -470,13 +536,13 @@ DS_ERROR PrintQueue(DS_QUEUE* Queue)
 	return DS_SUCCESS;
 }
 
-DS_ERROR PrintVector(DS_VECTOR* Vector)
+DS_ERROR PrintVector(DS_VECTOR * Vector)
 {
 	if (NULL == Vector)
 		return DS_INVALID_PARAMETER;
 
 	DS_ERROR result = DS_SUCCESS;
-	DS_VECTOR_ITERATOR* it;
+	DS_VECTOR_ITERATOR * it;
 	int* front, *back;
 
 	printf("Vector:");
@@ -515,6 +581,51 @@ DS_ERROR PrintVector(DS_VECTOR* Vector)
 
 		printf("Vector front: %d\nVector back: %d\n", *(int*)front, *(int*)back);
 	}
+
+	return DS_SUCCESS;
+}
+
+void printRec(DS_TREE_NODE * Root)
+{
+	if (NULL != Root)
+	{
+		printf(" (%s,%d)", (char*)Root->Key, *(int*)Root->Data);
+		printRec(Root->Left);
+		printRec(Root->Right);
+	}
+}
+
+DS_ERROR PrintTree(DS_TREE * Tree)
+{
+	if (Tree == NULL)
+		return DS_INVALID_PARAMETER;
+
+	DS_ERROR result = DS_SUCCESS;
+	DS_TREE_NODE* minNode, * maxNode;
+
+	printf("Tree (preorder):");
+	printRec(Tree->Root);
+	printf("\n");
+	printf("Tree size: %d\n", TreeSize(Tree));
+
+	if (TreeEmpty(Tree))
+	{
+		printf("Tree empty: yes\n");
+	}
+	else
+	{
+		printf("Tree empty: no\n");
+		
+		result = TreeGetMinNode(Tree, &minNode);
+		if (DS_SUCCESS != result)
+			return result;
+		result = TreeGetMaxNode(Tree, &maxNode);
+		if (DS_SUCCESS != result)
+			return result;
+
+		printf("Min node: %s\nMax node: %s\n", minNode->Key, maxNode->Key);
+	}
+	printf("\n");
 
 	return DS_SUCCESS;
 }

@@ -30,6 +30,9 @@
     <ClCompile Include="ds_vector.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ds_tree.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ds_common.h">

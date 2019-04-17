@@ -23,6 +23,7 @@
     <ClCompile Include="ds_list.c" />
     <ClCompile Include="ds_queue.c" />
     <ClCompile Include="ds_stack.c" />
+    <ClCompile Include="ds_tree.c" />
     <ClCompile Include="ds_vector.c" />
   </ItemGroup>
   <ItemGroup>
