@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include "ds_error.h"
 
-typedef int (*DS_COMPARE_FUNCTION)(void*, void*);
+typedef int (*DS_COMPARE_FUNCTION)(const void*, const void*);
 typedef enum _DS_ITERATOR_TYPE
 {
 	DS_ITERATOR,

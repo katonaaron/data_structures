@@ -5,6 +5,7 @@
 #include "ds_stack.h"
 #include "ds_queue.h"
 #include "ds_vector.h"
+#include "ds_tree.h"
 
 DS_ERROR TestList();
 DS_ERROR TestStack();
@@ -49,7 +50,7 @@ int main()
 	return 0;
 }
 
-int CompareInt(int* A, int* B)
+int CompareInt(const int* A, const int* B)
 {
 	return *A > * B ? 1 : *A < *B ? -1 : 0;
 }
@@ -58,7 +59,6 @@ DS_ERROR TestList()
 {
 	DS_ERROR result = DS_SUCCESS;
 	DS_LIST* list = NULL;
-	DS_LIST_ITERATOR* it;
 
 	result = ListCreate(&list);
 	if (result)
@@ -115,7 +115,7 @@ DS_ERROR TestList()
 	if (result)
 		return result;
 
-	//ListClear(list);
+	ListClear(list);
 	result = PrintList(list);
 	if (result)
 		return result;
