@@ -6,31 +6,34 @@
 #include "ds_queue.h"
 #include "ds_vector.h"
 #include "ds_tree.h"
+#include "ds_priority_queue.h"
 
 DS_ERROR TestList();
 DS_ERROR TestStack();
 DS_ERROR TestQueue();
 DS_ERROR TestVector();
 DS_ERROR TestTree();
+DS_ERROR TestPriorityQueue();
 
 DS_ERROR PrintList(DS_LIST* List);
 DS_ERROR PrintStack(DS_STACK* Stack);
 DS_ERROR PrintQueue(DS_QUEUE* Queue);
 DS_ERROR PrintVector(DS_VECTOR* Vector);
 DS_ERROR PrintTree(DS_TREE* Tree);
+DS_ERROR PrintPriorityQueue(DS_PRIORITY_QUEUE* Pq);
 
 int main()
 {
 	DS_ERROR result = DS_SUCCESS;
 
 
-	result = TestList();
+	/*result = TestList();
 	if (result)
 	{
 		printf("Error: %s\n", DSErrorGetMessage(result));
 		return -1;
 	}
-
+*/
 	/*result = TestStack();
 	if (result)
 		return result;*/
@@ -49,7 +52,14 @@ int main()
 			return -1;
 		}*/
 
-	result = TestTree();
+	/*result = TestTree();
+	if (result)
+	{
+		printf("Error: %s\n", DSErrorGetMessage(result));
+		return -1;
+	}*/
+
+	result = TestPriorityQueue();
 	if (result)
 	{
 		printf("Error: %s\n", DSErrorGetMessage(result));
@@ -439,6 +449,46 @@ DS_ERROR TestTree()
 	return result;
 }
 
+DS_ERROR TestPriorityQueue()
+{
+	DS_ERROR result = DS_SUCCESS;
+	DS_PRIORITY_QUEUE* pq = NULL;
+	int val[] = { 9, 2, 4, 6, 8, 13 };
+
+	result = PQCreate(&pq, CompareInt);
+	if (DS_SUCCESS != result)
+		return result;
+
+	for (int i = 0; i < sizeof(val) / sizeof(val[0]); i++)
+	{
+		result = PQInsert(pq, &val[i], sizeof(val[i]));
+		if (result)
+			return result;
+	}
+	result = PrintPriorityQueue(pq);
+	if (DS_SUCCESS != result)
+		return result;
+
+	for (int i = 0; i < 3; i++)
+	{
+		result = PQPopMin(pq);
+		if (DS_SUCCESS != result)
+			return result;
+		result = PrintPriorityQueue(pq);
+		if (DS_SUCCESS != result)
+			return result;
+
+		result = PQPopMax(pq);
+		if (DS_SUCCESS != result)
+			return result;
+		result = PrintPriorityQueue(pq);
+		if (DS_SUCCESS != result)
+			return result;
+	}
+
+	return result;
+}
+
 DS_ERROR PrintList(DS_LIST * List)
 {
 	DS_LIST_ITERATOR* it;
@@ -665,4 +715,44 @@ DS_ERROR PrintTree(DS_TREE * Tree)
 	printf("\n");
 
 	return DS_SUCCESS;
+}
+
+DS_ERROR PrintPriorityQueue(DS_PRIORITY_QUEUE* Pq)
+{
+	if (NULL == Pq)
+		return DS_INVALID_PARAMETER;
+
+	DS_ERROR result = DS_SUCCESS;
+	DS_LIST_ITERATOR* it = NULL;
+	int* min, * max;
+
+	it = ListIteratorCreate(Pq->List);
+	printf("Priority queue:");
+	while (ListHasNext(it))
+	{
+		printf(" %d", *(int*)ListNext(it));
+	}
+	printf("\n");
+	ListIteratorDestroy(it);
+
+	printf("PQ size: %u\n", PQSize(Pq));
+	if (PQEmpty(Pq))
+	{
+		printf("PQ empty: yes\n");
+	}
+	else
+	{
+		printf("PQ empty: no\n");
+
+		result = PQGetMin(Pq, &min);
+		if (DS_SUCCESS != result)
+			return result;
+
+		result = PQGetMax(Pq, &max);
+		if (DS_SUCCESS != result)
+			return result;
+
+		printf("Min node: %d\nMax node: %d\n", *min, *max);
+	}
+	return result;
 }

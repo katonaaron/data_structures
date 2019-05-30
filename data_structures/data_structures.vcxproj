@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="ds_error.c" />
     <ClCompile Include="ds_list.c" />
+    <ClCompile Include="ds_priority_queue.c" />
     <ClCompile Include="ds_queue.c" />
     <ClCompile Include="ds_stack.c" />
     <ClCompile Include="ds_tree.c" />
@@ -30,6 +31,7 @@
     <ClInclude Include="ds_common.h" />
     <ClInclude Include="ds_error.h" />
     <ClInclude Include="ds_list.h" />
+    <ClInclude Include="ds_priority_queue.h" />
     <ClInclude Include="ds_queue.h" />
     <ClInclude Include="ds_stack.h" />
     <ClInclude Include="ds_tree.h" />

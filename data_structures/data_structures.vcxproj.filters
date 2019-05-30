@@ -33,6 +33,9 @@
     <ClCompile Include="ds_tree.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ds_priority_queue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ds_common.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ds_tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ds_priority_queue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
