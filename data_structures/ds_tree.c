@@ -203,6 +203,110 @@ DS_ERROR TreeGetMaxNode(const DS_TREE * Tree, DS_TREE_NODE * *Node)
 	return TreeNodeGetMax(Tree->Root, Node);
 }
 
+DS_ERROR TreeCreateIterator(const DS_TREE* Tree, DS_ITERATOR_TYPE Type, DS_TREE_ITERATOR** Iterator)
+{
+	if (NULL == Tree)
+		return DS_INVALID_PARAMETER;
+	switch (Type)
+	{
+	case DS_INORDER_ITERATOR:
+	{
+		PDS_TREE_ITERATOR iterator = (PDS_TREE_ITERATOR)malloc(sizeof(DS_TREE_ITERATOR));
+		if (NULL == iterator)
+			return DS_INVALID_PARAMETER;
+		DS_ERROR result = StackCreate(&iterator->Stack);
+		if (DS_SUCCESS != result)
+		{
+			free(iterator);
+			return result;
+		}
+		iterator->Tree = Tree;
+
+		if (NULL != Tree->Root)
+		{
+			PDS_TREE_NODE* pnode = malloc(sizeof(PDS_TREE_NODE));
+			if (NULL == pnode)
+				return DS_NO_MEMORY;
+			*pnode = Tree->Root;
+			result = StackPush(iterator->Stack, &pnode, sizeof(PDS_TREE_NODE*));
+			if (DS_SUCCESS != result)
+			{
+				StackDestroy(iterator->Stack);
+				free(iterator);
+				return result;
+			}
+			//free(pnode);
+		}
+
+		*Iterator = iterator;
+		return result;
+	}
+	break;
+	default:
+		return DS_INVALID_PARAMETER;
+		break;
+	}
+}
+
+void TreeDestroyIterator(DS_TREE_ITERATOR* Iterator)
+{
+	if (NULL != Iterator)
+	{
+		StackDestroy(Iterator->Stack);
+		free(Iterator);
+	}
+}
+
+bool TreeHasNext(const DS_TREE_ITERATOR* Iterator)
+{
+	return NULL != Iterator && NULL != Iterator->Stack && !StackEmpty(Iterator->Stack);
+}
+
+DS_ERROR TreeNext(DS_TREE_ITERATOR* Iterator, void** Data)
+{
+	if (NULL == Iterator || NULL == Data)
+		return DS_INVALID_PARAMETER;
+
+	if(NULL == Iterator->Stack || StackEmpty(Iterator->Stack))
+		return DS_INVALID_PARAMETER;
+
+	PDS_TREE_NODE** ppnode = NULL;
+	PDS_TREE_NODE *pnode = NULL;
+	PDS_TREE_NODE node;
+	DS_ERROR result = DS_SUCCESS;
+	
+	result = StackTop(Iterator->Stack, &ppnode);
+	if (DS_SUCCESS != result)
+		return result;
+
+	node = **ppnode;
+	result = StackPop(Iterator->Stack);
+	if (DS_SUCCESS != result)
+		return result;
+
+	*Data = node->Data;
+
+	if (NULL != node->Right)
+	{
+		node = node->Right;
+		while (NULL != node)
+		{
+			pnode = malloc(sizeof(PDS_TREE_NODE));
+			if (NULL == pnode)
+				return DS_NO_MEMORY;
+			*pnode = node;
+			result = StackPush(Iterator->Stack, &pnode, sizeof(PDS_TREE_NODE*));
+			if (DS_SUCCESS != result)
+				return result;
+			node = node->Left;
+			//free(pnode);
+		}
+	}
+
+	return DS_SUCCESS;
+
+}
+
 DS_ERROR TreeNodeCreate(DS_TREE_NODE * *Node, const void* Key, size_t KeySize, const void* Data, size_t DataSize)
 {
 	if (NULL == Node || NULL == Key || 0 == KeySize)

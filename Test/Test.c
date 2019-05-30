@@ -24,12 +24,12 @@ int main()
 	DS_ERROR result = DS_SUCCESS;
 
 
-	/*result = TestList();
+	result = TestList();
 	if (result)
 	{
 		printf("Error: %s\n", DSErrorGetMessage(result));
 		return -1;
-	}*/
+	}
 
 	/*result = TestStack();
 	if (result)
@@ -386,9 +386,9 @@ DS_ERROR TestTree()
 	result = TreeFind(tree, "k", &data);
 	if (DS_SUCCESS != result)
 		return result;
-	printf("Found data: %d\n", *(int*)data);
+	printf("Found data: %d\n\n", *(int*)data);
 
-	while (!TreeEmpty(tree))
+	/*while (!TreeEmpty(tree))
 	{
 		result = TreeErase(tree, tree->Root->Key);
 		if (DS_SUCCESS != result)
@@ -396,7 +396,44 @@ DS_ERROR TestTree()
 		result = PrintTree(tree);
 		if (DS_SUCCESS != result)
 			return result;
+	}*/
+
+	DS_TREE_ITERATOR* it = NULL;
+	result = TreeCreateIterator(tree, DS_INORDER_ITERATOR, &it);
+	if (DS_SUCCESS != result)
+		return result;
+
+	printf("tree: ");
+	while (TreeHasNext(it))
+	{
+		result = TreeNext(it, &data);
+		if (DS_SUCCESS != result)
+			return result;
+
+		printf(" %d", *data);
 	}
+	printf("\n");
+	TreeDestroyIterator(it);
+
+	TreeDestroy(tree);
+
+	result = TreeCreateIterator(tree, DS_INORDER_ITERATOR, &it);
+	if (DS_SUCCESS != result)
+		return result;
+
+	/*printf("tree: ");
+	while (TreeHasNext(it))
+	{
+		result = TreeNext(it, &data);
+		if (DS_SUCCESS != result)
+			return result;
+
+		printf(" %d", *data);
+	}
+	printf("\n");
+	TreeDestroyIterator(it);*/
+
+	PrintTree(tree);
 
 	TreeDestroy(tree);
 	return result;
@@ -623,7 +660,7 @@ DS_ERROR PrintTree(DS_TREE * Tree)
 		if (DS_SUCCESS != result)
 			return result;
 
-		printf("Min node: %s\nMax node: %s\n", minNode->Key, maxNode->Key);
+		printf("Min node: %s\nMax node: %s\n", (char*)minNode->Key, (char*)maxNode->Key);
 	}
 	printf("\n");
 
