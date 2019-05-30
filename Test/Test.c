@@ -486,6 +486,8 @@ DS_ERROR TestPriorityQueue()
 			return result;
 	}
 
+	PQDestroy(pq);
+
 	return result;
 }
 

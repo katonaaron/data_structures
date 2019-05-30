@@ -20,7 +20,7 @@ DS_ERROR PQCreate(DS_PRIORITY_QUEUE** Pq, DS_COMPARE_FUNCTION Compare)
 	return DS_SUCCESS;
 }
 
-void PQDestory(DS_PRIORITY_QUEUE* Pq)
+void PQDestroy(DS_PRIORITY_QUEUE* Pq)
 {
 	if(NULL != Pq)
 	{
